@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">DishLogger</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_add_dish_">AddDish_Activity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="Welcome_to_our_DishLogger">Welcome to our DishLogger</string>
+    <string name="here_s_your_picture">Here\'s your Picture</string>
+
+</resources>
