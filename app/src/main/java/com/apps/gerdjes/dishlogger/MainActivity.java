@@ -33,7 +33,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, Welcome_Fragment.OnFragmentInteractionListener, Picture_Fragment.OnFragmentInteractionListener
 {
-
+    FloatingActionButton fab;
 
 
     @Override
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         Welcome_Fragment welcome_Fragment = new Welcome_Fragment();
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.container,welcome_Fragment).commit();
+        fab.show();
 
 
     }
@@ -145,12 +146,12 @@ public class MainActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             galleryAddPic();
-            Picture_Fragment picture_fragment = Picture_Fragment.newInstance(mCurrentPhotoPath, null);
+            Picture_Fragment picture_fragment = Picture_Fragment.newInstance( mCurrentPhotoPath, null);
 
             android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.container,picture_fragment).commitAllowingStateLoss();
 
-
+            fab.hide();
         }
 
 

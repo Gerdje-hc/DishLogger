@@ -6,11 +6,20 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -64,6 +73,8 @@ public class Picture_Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+
+
     }
 
     @Override
@@ -73,7 +84,31 @@ public class Picture_Fragment extends Fragment {
     View view= inflater.inflate(R.layout.fragment_picture_, container, false);
         mImageView = (ImageView) view.findViewById(R.id.mImageView1);
         setPic(mParam1);
+
+        ////////////////////////////  - database
+
+        mListView = (ListView) view.findViewById(R.id.recordList);
+        mNewDishNameInput = (EditText) view.findViewById(R.id.newRecordInput);
+        mDatabaseHelper = new DatabaseHelper(getActivity());
+        populateList();
+
+        ////////////////////////////
+
+        ///////////////////////////
+        Button addButton = view.findViewById(R.id.addButton);
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addRecord(view);
+            }
+        });
+
+
+        //////////////////////////
+
         return view;
+
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -145,4 +180,61 @@ public class Picture_Fragment extends Fragment {
         Log.d("gerdje", mCurrentPhotoPath);
         mImageView.setImageBitmap(bitmap);
     }
-}
+
+    ///////////////////////////////////
+    private EditText mNewDishNameInput;
+    private ListView mListView;
+    private DatabaseHelper mDatabaseHelper;
+
+    private void populateList ()
+    {
+        List<Dish> list = mDatabaseHelper.GetData();
+        List<String> infoList = new ArrayList<>();
+
+        for (Dish dish : list)
+        {
+            infoList.add(dish.getName() + " with id " + dish.getAccountId());
+
+        }
+
+        mListView.setAdapter(new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, infoList ));
+
+
+    }
+    public void addRecord (View v) {
+        String strName = mNewDishNameInput.getText().toString().trim();
+        if (TextUtils.isEmpty(strName)) {
+            Toast.makeText(getActivity(), "Please enter a name for your new Dish", Toast.LENGTH_SHORT).show();
+            return;
+
+        }
+
+        Dish dish = new Dish();
+        dish.setName(strName);
+        mDatabaseHelper.addDish(dish);
+        Toast.makeText(getActivity(), "New name successfully added", Toast.LENGTH_SHORT).show();
+        populateList();
+    }
+
+    @SuppressWarnings("deprectation")
+    public void deleteAllRecords(View v)
+
+    {
+        List<Dish> list = mDatabaseHelper.GetData();
+        if (null != list&& list.size() > 0)
+
+        {
+            mDatabaseHelper.deleteAllDishes();
+            mNewDishNameInput.setText("");
+            Toast.makeText(getActivity(), "Removed all data from the databasetable", Toast.LENGTH_SHORT).show();
+            populateList();
+        }
+        else {
+            Toast.makeText(getActivity(), "No data found in the database", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+    ////////////////////////////////////////
+
+    }
+

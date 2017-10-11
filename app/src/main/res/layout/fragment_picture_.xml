@@ -21,7 +21,42 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/here_s_your_picture"
-        />
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="20sp"
+        android:text="@string/Enter_the_details_for_your_Dish" />
+
+    <EditText
+        android:id="@+id/newRecordInput"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/hint_add" />
+
+    <Button
+        android:id="@+id/addButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newRecordInput"
+        android:layout_marginLeft="30dp"
+
+        android:text="@string/add" />
+
+    <Button
+        android:id="@+id/deleteAllButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/newRecordInput"
+        android:layout_marginLeft="62dp"
+        android:layout_toRightOf="@id/addButton"
+        android:onClick="deleteAllRecords"
+        android:text="@string/delete_data" />
+
+    <ListView
+        android:id="@+id/recordList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addButton"/>
 
 </LinearLayout>
